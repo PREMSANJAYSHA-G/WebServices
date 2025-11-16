@@ -1,0 +1,5 @@
+Flask>=2.2
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Mail
+python-dotenv
