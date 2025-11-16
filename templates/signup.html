@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signup - Web Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<style>
+/* General body style */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Card container */
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Heading */
+.card h2 {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: white;
+}
+
+/* Input fields */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 15px 45px 15px 15px;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Eye icon inside input */
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+}
+
+/* Submit button */
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 50px;
+    background: #ff4b2b;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: #ff416c;
+    transform: scale(1.05);
+}
+
+/* Flash messages */
+.flash {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+.flash.success { background-color: #28c76f; color: white; }
+.flash.danger { background-color: #ff4b2b; color: white; }
+.flash.info { background-color: #339af0; color: white; }
+
+/* Link below card */
+.link {
+    margin-top: 15px;
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+}
+.link:hover { text-decoration: underline; opacity: 1; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Create Account</h2>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="/signup" method="POST">
+        <div class="input-group">
+            <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="input-group">
+            <input type="email" name="email" placeholder="Email Address" required>
+        </div>
+        <div class="input-group">
+            <input type="password" name="password" placeholder="Password" id="signup-password" required>
+            <i class="fas fa-eye eye-icon" onclick="togglePassword('signup-password')"></i>
+        </div>
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <a href="/login" class="link">Already have an account? Login</a>
+</div>
+
+<script>
+function togglePassword(id) {
+    const password = document.getElementById(id);
+    password.type = password.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>

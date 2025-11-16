@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Body & Container ---------- */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #ffecd2, #fcb69f);
+    min-height: 100vh;
+}
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+/* ---------- Top Bar ---------- */
+.topbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+}
+.topbar a {
+    text-decoration: none;
+    background: #ff6a00;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.topbar a:hover {
+    background: #ee0979;
+}
+
+/* ---------- Page Heading ---------- */
+h1 {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #d84315;
+    font-size: 36px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+/* ---------- Flash Messages ---------- */
+.alert {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+    animation: fadeOut 5s forwards;
+}
+.alert-success { background-color: #4CAF50; color: white; }
+.alert-danger { background-color: #f44336; color: white; }
+.alert-info { background-color: #2196F3; color: white; }
+
+@keyframes fadeOut {
+    0% {opacity: 1;}
+    80% {opacity: 1;}
+    100% {opacity: 0; display: none;}
+}
+
+/* ---------- Services Grid ---------- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 35px;
+}
+
+/* ---------- Service Card ---------- */
+.service-card {
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    border-radius: 20px;
+    padding: 30px;
+    color: #fff;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    transition: transform 0.4s, box-shadow 0.4s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.service-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+.service-card h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+.service-card .price {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.service-card p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+.service-card button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #42e695, #3bb2b8);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s;
+}
+.service-card button:hover {
+    background: linear-gradient(135deg, #f83600, #f9d423);
+}
+</style>
+</head>
+<body>
+
+<!-- Top bar with Logout -->
+<div class="topbar">
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container">
+    <h1>Our Services</h1>
+    <div class="services-grid">
+        {% for service in services %}
+        <div class="service-card">
+            <h2>{{ service.name }}</h2>
+            <p class="price">Price: {{ service.price }}</p>
+            <p>{{ service.details }}</p>
+            <form action="{{ url_for('quotation', service_id=service.id) }}" method="GET">
+                <button type="submit">Request Quotation</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
